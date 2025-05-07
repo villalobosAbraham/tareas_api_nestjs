@@ -12,7 +12,7 @@ import { AuthService } from './auth/auth.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Make the configuration globally available
+      isGlobal: true, 
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -22,7 +22,7 @@ import { AuthService } from './auth/auth.service';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // Set to false in production
+      synchronize: true, // esto es solo para desarrollo, no usar en producción
     }),
     UsersModule,
     AuthModule,

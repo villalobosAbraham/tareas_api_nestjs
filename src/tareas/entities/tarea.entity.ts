@@ -12,8 +12,8 @@ export class Tarea {
     @Column()
     descripcion: string;
 
-    @ManyToOne(() => User, { nullable: false }) // Relación muchos a uno con User
-    @JoinColumn({ name: 'id_usuario' })         // Usa esta columna como FK
+    @ManyToOne(() => User, { nullable: false }) 
+    @JoinColumn({ name: 'id_usuario' })         
     usuario: User;
 
     @Column( {

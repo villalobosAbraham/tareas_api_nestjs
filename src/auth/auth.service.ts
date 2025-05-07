@@ -14,7 +14,7 @@ export class AuthService {
             let decoded = this.jwtService.verify(token);
             return decoded.id;
         } catch (error) {
-            return null; // o lanzar una excepción según tu lógica de negocio
+            return null; 
         }
     }
     async decodeToken(token: string) {
@@ -22,7 +22,7 @@ export class AuthService {
             const decoded = this.jwtService.decode(token);
             return decoded;
         } catch (error) {
-            return null; // o lanzar una excepción según tu lógica de negocio
+            return null; 
         }
     }
     async refreshToken(token: string) {
@@ -31,7 +31,7 @@ export class AuthService {
             const newToken = this.jwtService.sign({ userId: decoded.userId });
             return newToken;
         } catch (error) {
-            return null; // o lanzar una excepción según tu lógica de negocio
+            return null; 
         }
     }
 }

@@ -13,7 +13,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private userRepository: Repository<User>,
-    private readonly encryptionService: EncryptionService, // Asegúrate de importar y proporcionar el servicio de cifrado
+    private readonly encryptionService: EncryptionService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
