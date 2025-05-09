@@ -18,6 +18,26 @@ export class TareasController {
     }
   }
 
+  @Get('obtenerTareasPendientes')
+  async obtenerTareasPendientes( @Req() req: any) {
+    let idUsuario = await this.authService.validateToken(req.cookies.access_token);
+    if (!idUsuario) {
+      throw new UnauthorizedException('No autorizado');
+    } else {
+      return this.tareasService.obtenerTareasPendientes(idUsuario);
+    }
+  }
+
+  @Get('obtenerTareasCompletadas')
+  async obtenerTareasCompletadas( @Req() req: any) {
+    let idUsuario = await this.authService.validateToken(req.cookies.access_token);
+    if (!idUsuario) {
+      throw new UnauthorizedException('No autorizado');
+    } else {
+      return this.tareasService.obtenerTareasCompletadas(idUsuario);
+    }
+  }
+
   @Post('crear')
   async create(@Body() createTareaDto: CreateTareaDto, @Req() req: any) {
     let idUsuario = await this.authService.validateToken(req.cookies.access_token);

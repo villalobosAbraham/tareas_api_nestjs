@@ -55,8 +55,13 @@ export class UsersService {
     return user.id;
   }
 
-  async findAll() {
-    return await this.userRepository.find();
+  async obtenerNombreUsuarioToken(idUsuario) {
+    let user = await this.userRepository.findOne({ where: { id: idUsuario }, select: ['usuario']});
+    if (!user) {
+      return false;
+    }
+
+    return user
   }
 
   async findOne(id: number) {

@@ -7,10 +7,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.useGlobalPipes(new ValidationPipe({
-    whitelist: true, // Elimina campos que no estén en el DTO
-    forbidNonWhitelisted: true, // Lanza error si hay campos no permitidos
-    transform: true, // Para convertir tipos automáticamente
+    whitelist: true, 
+    forbidNonWhitelisted: true, 
+    transform: true, 
   }));
+
+  app.enableCors({
+    origin: 'http://localhost:5173',
+    credentials: true, 
+  });
 
   app.use(cookieParse());
 

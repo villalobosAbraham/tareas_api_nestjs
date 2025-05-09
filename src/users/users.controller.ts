@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, Res, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, Res, UnauthorizedException, Req } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -9,6 +9,16 @@ import { AuthService } from 'src/auth/auth.service';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService, private readonly authService : AuthService) {}
+
+  @Post('validarToken')
+    async obtenerTareas( @Req() req: any) {
+      let idUsuario = await this.authService.validateToken(req.cookies.access_token);
+      if (!idUsuario) {
+        return false;
+      } else {
+        return true;
+      }
+    }
 
   @Post('registrar')
   async create(@Body() createUserDto: CreateUserDto) {
@@ -32,23 +42,24 @@ export class UsersController {
     return true;
   }
 
-  @Get()
-  findAll() {
-    return this.usersService.findAll();
+  @Post('cerrarSesion')
+  async cerrarSesion(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token');
+    return true;
+  }
+
+  @Get('obtenerNombreUsuarioToken')
+  async obtenerNombreUsuarioToken(@Req() req: any) {
+    let idUsuario = await this.authService.validateToken(req.cookies.access_token);
+    if (!idUsuario) {
+      throw new UnauthorizedException('No autorizado');
+    } else {
+      return this.usersService.obtenerNombreUsuarioToken(idUsuario);
+    }
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
-  }
-
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
   }
 }
